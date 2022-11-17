@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Main</h1>
+    <h2 v-if="isLogin">{{user.username}}님 환영합니다</h2>
     <MovieList/>
   </div>
 </template>
@@ -13,6 +13,10 @@ export default {
   name: 'MainView',
   components: {
     MovieList
+  },
+  computed: {
+    isLogin() {return this.$store.getters.isLogin},
+    user() {return this.$store.getters.user}
   },
   methods:{
     getMovies(){

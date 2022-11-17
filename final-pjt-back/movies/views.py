@@ -1,5 +1,5 @@
-from django.http import JsonResponse, HttpResponse
-import requests
+from django.http import JsonResponse
+import requests, json
 from .models import Genre, Movie, Actor, Comment
 
 from rest_framework.response import Response
@@ -129,9 +129,9 @@ def movie_list(request):
 def movie_detail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     if request.method == 'GET':
-        lst= list(movie.actors.all())
-        lst1 = [i.name for i in lst]
-        movie.actors_namelist = lst1
+        actorlist = dict([(i.id, i.name) for i in list(movie.actors.all())])
+        json.dumps(actorlist)
+        movie.actors_namelist = actorlist
         movie.save()
         serializer = MovieSerializer(movie)
         return Response(serializer.data)

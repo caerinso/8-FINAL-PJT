@@ -6,7 +6,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'main',
+    name: 'MainView',
     component: () => import(/* webpackChunkName: "about" */ '../views/MainView.vue')
   },
   {
@@ -16,7 +16,7 @@ const routes = [
   },
   {
     path: '/login',
-    name: 'LogInView', 
+    name: 'LoginView', 
     component: () => import(/* webpackChunkName: "about" */ '../views/LoginView.vue')
   },
   {
@@ -29,7 +29,11 @@ const routes = [
     name: 'DetailView', 
     component: () => import(/* webpackChunkName: "about" */ '../views/DetailView.vue')
   },
-
+  {
+    path: '/user',
+    name: 'ProfileView', 
+    component: () => import(/* webpackChunkName: "about" */ '../views/ProfileView.vue')
+  },
 ]
 
 const router = new VueRouter({
