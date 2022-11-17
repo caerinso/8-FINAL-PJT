@@ -3,8 +3,9 @@
     <p>{{ movie.id }}</p>
     <p>{{ movie.title }}</p>
     <p>{{ movie.overview }}</p>
-    <p>{{ movie.actors }}</p>
+    <p>{{ movie.actors}}</p>
     <p>{{ movie.release_date }}</p>
+    <p>{{ movie.actors_namelist }}</p>
   </div>
 </template>
 
@@ -16,6 +17,7 @@ export default {
   data() {
     return {
       movie: null,
+      actor: null,
     }
   },
   methods: {
@@ -25,6 +27,7 @@ export default {
       })
         .then(res => {
           this.movie = res.data
+          console.log(this.movie.actors)
         })
     }
   },
