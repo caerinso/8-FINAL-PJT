@@ -12,6 +12,7 @@ export default new Vuex.Store({
     createPersistedState()
   ],
   state: {
+
     token: null,
     user: null,
     movies:[],

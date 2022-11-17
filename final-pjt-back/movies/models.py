@@ -21,7 +21,7 @@ class Movie(models.Model):
     genres = models.ManyToManyField(Genre)
     like_users = models.ManyToManyField(settings.AUTH_USER_MODEL)
     actors = models.ManyToManyField(Actor)
-    actors_namelist = models.CharField(max_length=100, default='')
+    actors_namelist = models.TextField(null=True)
 
 class Comment(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
