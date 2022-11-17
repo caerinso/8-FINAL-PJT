@@ -13,9 +13,7 @@ export default new Vuex.Store({
   state: {
     movies:[],
     token: null,
-    token: null,
     user: null,
-    movies:[],
     similar: [],
   },
   getters: {

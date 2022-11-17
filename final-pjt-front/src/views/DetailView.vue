@@ -7,25 +7,44 @@
     <p>{{ movie?.vote_average }}</p>
     <p>{{ movie?.title }}</p>
     <p>{{ movie?.overview }}</p>
-    <p v-for="actor in movie?.actors" :key="actor.id" @click='actorInfo(actor)'>{{ actor }}</p>
+    <p>{{ movie?.actors_namelist }}</p>
+    
+    <!-- <p v-for="actor in movie?.actors_namelist" :key="actor.id" @click='actorInfo(actor)'>{{ actor }}</p> -->
     <p>{{ movie?.release_date }}</p>
     <div class='card' v-for="similarMovie in similarMovies" :key="similarMovie.id">
       <img :src="'https://image.tmdb.org/t/p/w300_and_h450_bestv2'+similarMovie.poster_path">
       <p>{{ similarMovie.title }}</p>
       <p>{{ similarMovie.release_date }}</p>
     </div>
+
+    <div>
+      <h1>댓글쓰기</h1>
+      <form @submit.prevent="createComment">
+        <label for="comment">한줄평: </label>
+        <textarea  id="content" cols="10" rows="10"
+        v-model.trim="content" :key="kk"></textarea>
+        <input type="submit" value="저장">
+      </form>
+      <h1>댓글list</h1>
+      <CommentList/>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import CommentList from '@/components/CommentList'
 const API_URL = 'http://127.0.0.1:8000'
 export default {
   name: 'DetailView',
+  comments:{
+    CommentList
+  },
   data() {
     return {
       movie: null,
       actor: null,
+      content: null,
     }
   },
   computed: {
@@ -51,7 +70,41 @@ export default {
     },
     actorInfo(actorId) {
       window.location.href = `https://www.themoviedb.org/person/${actorId}?language=ko`
-    }
+    },
+    createComment(){
+      const content = this.content 
+      if (!content) {
+        alert('내용 입력해 주세요')
+        return
+      }
+      axios({
+        method:'post',
+        url: `${API_URL}/api/v1/movies/${this.movie.id}/comments/`,
+        data:{
+          content: content,
+        },
+        headers:{
+          Authorization: `Token ${this.$store.state.token}`
+        }
+      })
+      .then((res)=>{
+        console.log(res)
+        this.$router.push({name: 'DetailView' })
+
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    },
+    // getMovieComments(){
+    //   axios({
+    //     method:'get',
+    //     url:`${API_URL}/api/v1/comment//`
+    //   })
+    //   .then(res =>{
+
+    //   })
+    // },
   },
   created() {
     this.getMovieDetail()

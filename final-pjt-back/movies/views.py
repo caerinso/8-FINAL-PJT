@@ -1,7 +1,7 @@
 from django.http import JsonResponse, HttpResponse
 import requests
 from .models import Genre, Movie, Actor, Comment
-
+import json
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.decorators import permission_classes
@@ -10,7 +10,6 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework import status
 from django.shortcuts import get_object_or_404, get_list_or_404
 from .serializers import MovieListSerializer, MovieSerializer, ActorSerializer, GenreSerializer, CommentSerializer
-
 
 
 API_KEY = '627e1b2375ee1759c41cec7d89ed5cc0'
@@ -129,9 +128,9 @@ def movie_list(request):
 def movie_detail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     if request.method == 'GET':
-        lst= list(movie.actors.all())
-        lst1 = [i.name for i in lst]
-        movie.actors_namelist = lst1
+        actorlist = dict([(i.id, i.name) for i in list(movie.actors.all())])
+        json.dumps(actorlist)
+        movie.actors_namelist = actorlist
         movie.save()
         serializer = MovieSerializer(movie)
         return Response(serializer.data)

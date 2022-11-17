@@ -5,6 +5,7 @@
       <router-link to="/recommend">recommend</router-link> |
       <router-link to="/login">login</router-link>|
       <router-link :to="{ name: 'SignUpView'}">signup</router-link>|
+      <router-link :to="{ name: 'ProfileView'}">profile</router-link>|
     </nav>
     <router-view/>
   </div>
