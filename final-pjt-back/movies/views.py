@@ -16,6 +16,7 @@ from .serializers import MovieListSerializer, MovieSerializer, ActorSerializer, 
 API_KEY = '627e1b2375ee1759c41cec7d89ed5cc0'
 GENRE_URL = 'https://api.themoviedb.org/3/genre/movie/list'
 POPULAR_MOVIE_URL = 'https://api.themoviedb.org/3/movie/popular'
+TMDB_URL = 'https://api.themoviedb.org/3/movie/'
 
 def tmdb_genres():
     response = requests.get(
@@ -37,7 +38,7 @@ def tmdb_genres():
 def get_youtube_key(movie_dict):    
     movie_id = movie_dict.get('id')
     response = requests.get(
-        f'https://api.themoviedb.org/3/movie/{movie_id}/videos',
+        f'{TMDB_URL}{movie_id}/videos',
         params={
             'api_key': API_KEY
         }
@@ -50,7 +51,7 @@ def get_youtube_key(movie_dict):
 def get_actors(movie):
     movie_id = movie.id
     response = requests.get(
-        f'https://api.themoviedb.org/3/movie/{movie_id}/credits',
+        f'{TMDB_URL}{movie_id}/credits',
         params={
             'api_key': API_KEY,
             'language': 'ko-kr',
@@ -63,11 +64,11 @@ def get_actors(movie):
         if not Actor.objects.filter(pk=actor_id).exists():
             actor = Actor.objects.create(
                 id=person.get('id'),
-                name=person.get('name')
+                name=person.get('name'),
             )
-        movie.actors.add(actor_id)
-        if movie.actors.count() == 5:       # 5명의 배우 정보만 저장
-            break
+            movie.actors.add(actor)
+            if movie.actors.count() == 5:       # 5명의 배우 정보만 저장
+                break
 
 def movie_data(page=1):
     response = requests.get(
@@ -100,7 +101,7 @@ def movie_data(page=1):
 
 
         # 배우들 저장
-        get_actors(movie)   
+        get_actors(movie)
 
 
 def movies_data(request):
@@ -129,6 +130,10 @@ def movie_detail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
 
     if request.method == 'GET':
+        lst= list(movie.actors.all())
+        lst1 = [i.name for i in lst]
+        movie.actors_namelist = lst1
+        movie.save()
         serializer = MovieSerializer(movie)
         return Response(serializer.data)
 
@@ -167,3 +172,9 @@ def comment_create(request, movie_pk):
     if serializer.is_valid(raise_exception=True):
         serializer.save(movie=movie)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+@api_view(['GET'])
+def actor_list(request):
+    actors = get_list_or_404(Actor)
+    serializer = ActorSerializer(actors, many=True)
+    return Response(serializer.data)

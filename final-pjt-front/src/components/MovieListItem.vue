@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <router-link :to="{name: 'DetailView', params:{id:movie.id}}"><h5>{{movie.id}}</h5></router-link>
+  <div class="card" @click='goDetail'>
+    <img :src="moviePoster">
+    <h5>{{movie.id}}</h5>
     <p>{{movie.title}}</p>
   </div>
 </template>
@@ -10,6 +11,16 @@ export default {
   name:'MovieListItem',
   props:{
     movie: Object
+  },
+  computed: {
+    moviePoster() {
+      return `https://image.tmdb.org/t/p/w300_and_h450_bestv2${this.movie.poster_path}`
+    },
+  },
+   methods: {
+    goDetail() {
+      this.$router.push({name: 'DetailView', params: {id: this.movie.id}})
+    }
   }
 }
 </script>
