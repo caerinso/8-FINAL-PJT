@@ -128,7 +128,6 @@ def movie_list(request):
 @api_view(['GET',])
 def movie_detail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
-
     if request.method == 'GET':
         lst= list(movie.actors.all())
         lst1 = [i.name for i in lst]

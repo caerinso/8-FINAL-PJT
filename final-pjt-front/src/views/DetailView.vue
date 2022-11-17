@@ -25,6 +25,7 @@ export default {
   data() {
     return {
       movie: null,
+      actor: null,
     }
   },
   computed: {

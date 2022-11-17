@@ -16,13 +16,13 @@ const routes = [
   },
   {
     path: '/login',
-    name: 'login', 
+    name: 'LogInView', 
     component: () => import(/* webpackChunkName: "about" */ '../views/LoginView.vue')
   },
   {
     path: '/sign',
-    name: 'sign', 
-    component: () => import(/* webpackChunkName: "about" */ '../views/SignView.vue')
+    name: 'SignUpView', 
+    component: () => import(/* webpackChunkName: "about" */ '../views/SignUpView.vue')
   },
   {
     path: '/:id',
