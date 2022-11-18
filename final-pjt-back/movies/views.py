@@ -131,6 +131,9 @@ def movie_detail(request, movie_pk):
         actorlist = dict([(i.id, i.name) for i in list(movie.actors.all())])
         json.dumps(actorlist)
         movie.actors_namelist = actorlist
+        genrelist = dict([(i.id, i.name) for i in list(movie.genres.all())])
+        json.dumps(genrelist)
+        movie.genres_list = genrelist
         movie.save()
         serializer = MovieSerializer(movie)
         return Response(serializer.data)
@@ -149,30 +152,56 @@ def comment_detail(request, comment_pk):
     comment = get_object_or_404(Comment, pk=comment_pk)
 
     if request.method == 'GET':
+        print(comment)
         serializer = CommentSerializer(comment)
         return Response(serializer.data)
 
     elif request.method == 'DELETE':
-        comment.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        # if request.user == comment.user_id:
+            comment.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
 
     elif request.method == 'PUT':
         serializer = CommentSerializer(comment, data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data)
+            # if request.user == comment.user_id:
+                serializer.save()
+                return Response(serializer.data)
 
 
-@api_view(['POST'])
+@api_view(['GET','POST'])
 def comment_create(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
-    serializer = CommentSerializer(data=request.data)
-    if serializer.is_valid(raise_exception=True):
-        serializer.save(movie=movie)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    if request.method == 'POST':
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(movie=movie)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+    elif request.method == 'GET':
+        serializer = MovieSerializer(movie)
+        return Response(serializer.data)
 
 @api_view(['GET'])
 def actor_list(request):
     actors = get_list_or_404(Actor)
     serializer = ActorSerializer(actors, many=True)
     return Response(serializer.data)
+
+
+
+def search_movie(request):
+    movie= get_list_or_404(Movie)
+    print(movie)
+    return
+
+@api_view(['POST'])
+def movie_likes(request, movie_pk):
+    movie = get_object_or_404(Movie, pk=movie_pk)
+    if movie.like_users.filter(pk=request.user.pk).exists():
+        movie.like_users.remove(request.user)
+    else:
+        movie.like_users.add(request.user)
+    return
+
+def recommend_movie(request):
+    return

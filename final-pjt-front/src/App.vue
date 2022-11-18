@@ -1,22 +1,46 @@
 <template>
   <div id="app">
     <nav>
-      <button type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+      <button
+        type="button"
+        data-bs-toggle="modal"
+        data-bs-target="#staticBackdrop"
+      >
         Search
       </button>
-      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div
+        class="modal fade"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="staticBackdropLabel">Movie Search</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                Movie Search
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
             </div>
             <div class="modal-body">
-              <input type="text" v-model="movieTitle" @input="movieSearch" @keyup.enter="movieSearch">
+              <input
+                type="text"
+                v-model="movieTitle"
+                @input="movieSearch"
+                @keyup.enter="movieSearch"
+              />
               <button @click="movieSearch">Search</button>
             </div>
             <div class="modal-footer">
-              <MovieSearching/>
+              <MovieSearching />
             </div>
           </div>
         </div>
@@ -26,43 +50,44 @@
       <router-link to="/recommend">recommend</router-link> |
       <span v-if="!isLogin">
         <router-link to="/login">login</router-link>|
-        <router-link :to="{ name: 'SignUpView'}">signup</router-link>|
+        <router-link :to="{ name: 'SignUpView' }">signup</router-link>|
       </span>
       <span v-if="isLogin">
         <button @click="logout">Logout</button> |
-        <router-link :to="{name: 'ProfileView'}">Profile</router-link>
+        <router-link :to="{ name: 'ProfileView' }">Profile</router-link>
       </span>
     </nav>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
 <script>
-import MovieSearching from '@/components/MovieSearching'
+import MovieSearching from "@/components/MovieSearching";
 
 export default {
   data() {
     return {
       movieTitle: null,
-    }
+    };
   },
   computed: {
-    isLogin() {return this.$store.getters.isLogin},
+    isLogin() {
+      return this.$store.getters.isLogin;
+    },
   },
   methods: {
     logout() {
-      this.$store.dispatch('logout')
+      this.$store.dispatch("logout");
     },
     movieSearch() {
-      this.$store.dispatch('movieSearch', this.movieTitle)
-    }
+      this.$store.dispatch("movieSearch", this.movieTitle);
+    },
   },
   components: {
     MovieSearching,
-  }
-}
+  },
+};
 </script>
-
 
 <style>
 #app {
