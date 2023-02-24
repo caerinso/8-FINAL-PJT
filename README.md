@@ -70,6 +70,10 @@
 [https://vuejsexamples.com/tag/movie/](https://vuejsexamples.com/tag/movie/)
 
 ## 프로젝트 결과 
+![Untitled](https://yogurt-bucket.s3.ap-northeast-2.amazonaws.com/sodapdf-converted_Page_3.jpeg)
+![Untitled](https://yogurt-bucket.s3.ap-northeast-2.amazonaws.com/sodapdf-converted_Page_4.jpeg)
+![Untitled](https://yogurt-bucket.s3.ap-northeast-2.amazonaws.com/sodapdf-converted_Page_5.jpeg)
+![Untitled](https://yogurt-bucket.s3.ap-northeast-2.amazonaws.com/sodapdf-converted_Page_6.jpeg)
 ![Untitled](https://yogurt-bucket.s3.ap-northeast-2.amazonaws.com/sodapdf-converted_Page_10.jpeg)
 ![Untitled](https://yogurt-bucket.s3.ap-northeast-2.amazonaws.com/sodapdf-converted_Page_11.jpeg)
 ![Untitled](https://yogurt-bucket.s3.ap-northeast-2.amazonaws.com/sodapdf-converted_Page_12.jpeg)
